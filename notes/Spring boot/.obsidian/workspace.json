@@ -1,0 +1,194 @@
+{
+  "main": {
+    "id": "f7727e68005407b1",
+    "type": "split",
+    "children": [
+      {
+        "id": "f0e99fd41e9f2a05",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8ad6cb4c0cded08d",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "REST API.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "REST API"
+            }
+          },
+          {
+            "id": "bcb51cf07da43d5e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Behind the scenes of spring boot.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Behind the scenes of spring boot"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "a447c2ce9a5f0c84",
+    "type": "split",
+    "children": [
+      {
+        "id": "95c68c704f4ea471",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "056d382530b3cc55",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "aa253913aa00373b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "96ec7546ebed354e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 200
+  },
+  "right": {
+    "id": "7ba35db422d8a928",
+    "type": "split",
+    "children": [
+      {
+        "id": "6c1f6de11ae8c2da",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f32c7027eb85ad4b",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "REST API.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for REST API"
+            }
+          },
+          {
+            "id": "5fca663e5806e044",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "REST API.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from REST API"
+            }
+          },
+          {
+            "id": "f6ddfcb114f79c2f",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "630e2728cdb34932",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "REST API.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of REST API"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "8ad6cb4c0cded08d",
+  "lastOpenFiles": [
+    "Spring Boot.md",
+    "Untitled 1.md",
+    "Untitled.md",
+    "Behind the scenes of spring boot.md",
+    "REST API.md",
+    "Learning Spring Boot.md"
+  ]
+}
