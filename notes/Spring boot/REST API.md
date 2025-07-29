@@ -21,4 +21,21 @@
 - localhost:8080/class-name -> @RequestMapping
 - localhost:8080/class-name/endpoint -> @GetMapping / @PostMapping
 
+## GET method
+-  returns data by finding the endpoint in URL , maps the endpoing to the method returning any type of data (object , list of objects,etc)
+## POST method
+- saves data sent in the @RequestBody( JSON  --> getters and setters of class )
+## PUT method 
+- modifies the data ofcourse need different endpoint if any other put method is used.
+- use logical name for endpoint to avoid confusion though same endpoint with different request can be accessed.
+## *DELETE method
+- removes any data requested .
+*path variable - extract arguments from URL and pass it to methods for REST CONTROLLER
+-using @PathVariable 
+
+*Request Body -  request the body of mentioned class type asking for attributes of that class this is used in PUT and POST method. 
+
+
+
+
 

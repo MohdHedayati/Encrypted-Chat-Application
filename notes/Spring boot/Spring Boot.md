@@ -25,7 +25,12 @@
 
 # [[Behind the scenes of spring boot]]
 
-[[REST API]]
+
+## Dependencies : 
+
+1. [[REST API]] ( Managing Registration,Login of data, changing credentials,deleting account)
+2. [[Response Entity]] 
+3. 
 
 
 
