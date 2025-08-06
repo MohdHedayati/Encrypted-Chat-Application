@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import './App.css';
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -6,6 +7,8 @@ function App() {
   const [input, setInput] = useState('');
   const [name, setName] = useState('');
   const [isNameSet, setIsNameSet] = useState(false);
+
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     const ws = new WebSocket('ws://localhost:8080/chat');
@@ -15,6 +18,10 @@ function App() {
     setSocket(ws);
     return () => ws.close();
   }, []);
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const sendMessage = () => {
     if (socket && input.trim() !== '') {
@@ -31,32 +38,38 @@ function App() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="app-container">
       {!isNameSet ? (
-        <form onSubmit={handleNameSubmit}>
+        <form className="name-form" onSubmit={handleNameSubmit}>
+          <h2>Enter Your Name</h2>
           <input
+            className="name-input"
             value={name}
             onChange={e => setName(e.target.value)}
-            placeholder="Enter your name"
+            placeholder="Your name"
           />
-          <button type="submit">Join Chat</button>
+          <button type="submit" className="join-button">Join Chat</button>
         </form>
       ) : (
-        <>
-          <div style={{ height: '300px', overflowY: 'auto', border: '1px solid gray', padding: '10px' }}>
+        <div className="chat-wrapper">
+          <header className="chat-header">Secure Chat</header>
+          <div className="chat-box">
             {messages.map((msg, idx) => (
-              <div key={idx}>{msg}</div>
+              <div key={idx} className="chat-message">{msg}</div>
             ))}
+            <div ref={messageEndRef}></div>
           </div>
-          <input
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' ? sendMessage() : null}
-            placeholder="Type your message"
-            style={{ width: '80%' }}
-          />
-          <button onClick={sendMessage}>Send</button>
-        </>
+          <div className="input-area">
+            <input
+              className="chat-input"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' ? sendMessage() : null}
+              placeholder="Type your message..."
+            />
+            <button className="send-button" onClick={sendMessage}>Send</button>
+          </div>
+        </div>
       )}
     </div>
   );

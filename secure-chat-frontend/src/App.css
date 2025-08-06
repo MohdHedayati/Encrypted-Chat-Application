@@ -1,0 +1,113 @@
+/* App.css - Dark Theme */
+
+body {
+  background-color: #1e1f22;
+  color: #e3e3e3;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.name-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #2b2d31;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #000;
+}
+
+.name-input {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  width: 250px;
+  background-color: #40444b;
+  color: white;
+}
+
+.join-button {
+  padding: 10px 20px;
+  background-color: #5865f2;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  height: 90vh;
+  background-color: #2b2d31;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px #000;
+}
+
+.chat-header {
+  background-color: #202225;
+  padding: 20px;
+  font-size: 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid #3a3c42;
+}
+
+.chat-box {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #2b2d31;
+}
+
+.chat-message {
+  padding: 8px 12px;
+  margin: 6px 0;
+  background-color: #40444b;
+  border-radius: 6px;
+  word-wrap: break-word;
+}
+
+.input-area {
+  display: flex;
+  border-top: 1px solid #3a3c42;
+  background-color: #202225;
+  padding: 10px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 10px;
+  background-color: #40444b;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 1rem;
+}
+
+.send-button {
+  margin-left: 10px;
+  padding: 10px 20px;
+  background-color: #5865f2;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.send-button:hover {
+  background-color: #4752c4;
+}
