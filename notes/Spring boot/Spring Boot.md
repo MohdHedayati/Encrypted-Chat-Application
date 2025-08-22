@@ -28,9 +28,10 @@
 
 ## Dependencies : 
 
-1. [[REST API]] ( Managing Registration,Login of data, changing credentials,deleting account)
-2. [[Response Entity]] 
-3. 
+1. [[REST API]] ( Managing requests of Registration,Login of data, changing credentials,deleting account to the server)
+2. [[Response Entity]] ( Implementing Status codes in the request created by client to know what's going right and wrong)
+3. [[Lombok]] (Reducing Boiler plate code)
+4. [[Spring Security]] (Build and Customize Authentication)
 
 
 
