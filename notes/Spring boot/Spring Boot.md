@@ -32,6 +32,7 @@
 2. [[Response Entity]] ( Implementing Status codes in the request created by client to know what's going right and wrong)
 3. [[Lombok]] (Reducing Boiler plate code)
 4. [[Spring Security]] (Build and Customize Authentication)
+5. [[WebSocket]]
 
 
 
