@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,12 +32,17 @@ public class SecurityConfig {
 
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register" ,"/api/login", "/h2-console/**").permitAll()
+                        // allowed frontend points as public for now
+                        .requestMatchers("/api/register" ,"/api/login", "/h2-console/**", "/registration.html" ,"/login.html", "/style.css").permitAll()
                         .anyRequest().authenticated()
                 )
-                // by defualt sprign security blocks any <frame> to be displayed and  h2-console need frame to display the db info so we need to disable security config for frames
+                // by default spring security blocks any <frame> to be displayed and  h2-console need frame to display the db info so we need to disable security config for frames
                 .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-
+//                .httpBasic(Customizer.withDefaults())
+                // spring security automatically creates a session even if not mentioned explicitly like below
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
                 .formLogin(Customizer.withDefaults());
                 return http.build();
 
