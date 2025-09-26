@@ -11,11 +11,9 @@ function App() {
   const [to, setTo] = useState("");
   const [content, setContent] = useState("");
 
-  // Use a ref to hold the stompClient instance
   const stompClientRef = useRef(null);
 
   useEffect(() => {
-    // Disconnect when the component unmounts
     return () => {
       if (stompClientRef.current) {
         stompClientRef.current.deactivate();
@@ -29,13 +27,11 @@ function App() {
       return;
     }
 
-    // Pass username as query param for SockJS handshake
     const sockJsUrl = `https://localhost:8443/ws-chat?username=${encodeURIComponent(username)}`;
     const client = new Client({
       webSocketFactory: () => new SockJS(sockJsUrl),
       reconnectDelay: 5000,
       debug: (str) => console.log(new Date(), str),
-      // Remove connectHeaders: { username }, // not used for handshake
       onWebSocketClose: (event) => {
         console.warn("[FRONTEND] WebSocket closed:", event);
         setIsConnected(false);
@@ -47,18 +43,11 @@ function App() {
       setIsConnected(true);
 
       client.subscribe("/topic/users", (message) => {
-        console.log("%c[USERS] Raw message received:", "color: orange;", message.body);
         try {
           const users = JSON.parse(message.body);
-          console.log("%c[USERS] Parsed user array:", "color: green;", users);
-          console.log("%c[USERS] Current client username:", "color: cyan;", username);
-
           if (Array.isArray(users)) {
             const filteredUsers = users.filter(user => user !== username);
-            console.log("%c[USERS] Filtered user list to render:", "color: lightblue;", filteredUsers);
             setOnlineUsers(filteredUsers);
-          } else {
-            console.warn("[USERS] Received data is not an array:", users);
           }
         } catch (error) {
           console.error("[USERS] Could not parse user list:", error);
@@ -67,14 +56,13 @@ function App() {
 
       client.subscribe(`/user/queue/messages`, (message) => {
         const msg = JSON.parse(message.body);
-        console.log("[FRONTEND] Received message:", msg);
         setChatMessages((prev) => [...prev, msg]);
       });
     };
 
     client.onStompError = (frame) => {
-      console.error('Broker reported error: ' + frame.headers['message']);
-      console.error('Additional details: ' + frame.body);
+      console.error("Broker error:", frame.headers["message"]);
+      console.error("Details:", frame.body);
     };
 
     client.activate();
@@ -84,7 +72,6 @@ function App() {
   const sendMessage = () => {
     if (stompClientRef.current && to && content) {
       const msg = { from: username, to, content };
-      console.log("[FRONTEND] Sending message:", msg);
       stompClientRef.current.publish({
         destination: "/app/private",
         body: JSON.stringify(msg),
@@ -97,15 +84,20 @@ function App() {
   return (
     <div className="App">
       {!isConnected ? (
-        <div className="center-screen name-box">
-          <h2>Enter Username</h2>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Your name"
-            onKeyPress={(e) => e.key === 'Enter' && connect()}
-          />
-          <button onClick={connect}>Connect</button>
+        // --- THIS IS THE FIX ---
+        // The .center-screen div acts as a full-page container
+        <div className="center-screen">
+          {/* The .name-box div is the content that gets centered */}
+          <div className="name-box">
+            <h2>Enter Username</h2>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Your name"
+              onKeyPress={(e) => e.key === "Enter" && connect()}
+            />
+            <button onClick={connect}>Connect</button>
+          </div>
         </div>
       ) : (
         <div className="app-container">
@@ -113,37 +105,59 @@ function App() {
             <h3>Online Users</h3>
             <ul>
               {onlineUsers.map((user) => (
-                <li key={user} onClick={() => setTo(user)} className={to === user ? 'active' : ''}>
+                <li
+                  key={user}
+                  onClick={() => setTo(user)}
+                  className={to === user ? "active" : ""}
+                >
                   {user}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="chat-panel">
-            <h2>Welcome, {username}</h2>
-            <div className="messages-box">
-              <ul>
-                {chatMessages.map((msg, idx) => (
-                   <li key={idx} className={msg.from === username ? 'msg self' : 'msg other'}>
-                      <b>{msg.from === username ? 'You' : msg.from} to {msg.to === username ? 'You' : msg.to}:</b> {msg.content}
-                   </li>
-                ))}
-              </ul>
-            </div>
-            <div className="message-box input-box">
-              <input
-                placeholder="Recipient"
-                value={to}
-                onChange={(e) => setTo(e.target.value)}
-              />
-              <input
-                placeholder="Type your message..."
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-              />
-              <button onClick={sendMessage}>Send</button>
-            </div>
+          <div className={`chat-panel ${!to ? "empty-chat" : ""}`}>
+            {!to ? (
+              <div className="placeholder">
+                <h2>Welcome, {username}</h2>
+                <p>Select a user to start chatting</p>
+              </div>
+            ) : (
+              <>
+                <h2>Chatting with {to}</h2>
+                <div className="messages-box">
+                  <ul>
+                    {chatMessages
+                      .filter(
+                        (msg) =>
+                          (msg.from === username && msg.to === to) ||
+                          (msg.from === to && msg.to === username)
+                      )
+                      .map((msg, idx) => (
+                        <li
+                          key={idx}
+                          className={
+                            msg.from === username ? "msg self" : "msg other"
+                          }
+                        >
+                          <b>
+                            {msg.from === username ? "You" : msg.from}:
+                          </b>{" "}
+                          {msg.content}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+                <div className="message-box input-box">
+                  <input
+                    placeholder="Type your message..."
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                    onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+                  />
+                  <button onClick={sendMessage}>Send</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

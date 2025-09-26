@@ -1,128 +1,212 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #121212;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0d0d0d;
   color: #eee;
 }
 
+/* --- LOGIN PAGE --- */
+/* --- LOGIN PAGE FIXED --- */
+/* --- LOGIN PAGE FIXED CENTER --- */
 .center-screen {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100%;            /* make sure it fills screen width */
+  position: fixed;        /* ensures it doesn’t shift with layout */
+  top: 0;
+  left: 0;
 }
 
 .name-box {
-  background: #1e1e1e;
-  padding: 2rem;
-  border-radius: 12px;
+  background: linear-gradient(145deg, #1a1a1a, #222);
+  padding: 2.5rem;
+  border-radius: 16px;
   text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+  width: 320px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.name-box h2 {
+  margin-bottom: 1.5rem;
+  color: #bb86fc;
+  font-weight: 600;
 }
 
 .name-box input {
-  padding: 0.5rem;
-  margin: 1rem 0;
-  width: 200px;
+  padding: 0.75rem;
+  margin-bottom: 1rem; /* vertical spacing */
+  width: 100%;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  outline: none;
+  background: #2a2a2a;
+  color: #eee;
+  font-size: 1rem;
 }
 
 .name-box button {
-  padding: 0.5rem 1rem;
+  width: 100%;
+  padding: 0.8rem;
   background: #6200ea;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #fff;
+  font-size: 1rem;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 
+.name-box button:hover {
+  background: #7b2ff7;
+}
+
+
+/* --- APP CONTAINER --- */
 .app-container {
   display: flex;
   height: 100vh;
 }
 
+/* --- USERS PANEL --- */
 .users-panel {
   width: 250px;
-  background: #1e1e1e;
+  background: #151515;
   padding: 1rem;
-  border-right: 1px solid #333;
+  border-right: 1px solid #222;
+}
+
+.users-panel h3 {
+  color: #bb86fc;
+  margin-bottom: 1rem;
 }
 
 .users-panel ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .users-panel li {
-  padding: 0.5rem;
+  padding: 0.7rem;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 8px;
+  transition: 0.2s;
 }
 
 .users-panel li:hover,
 .users-panel li.active {
-  background: #333;
+  background: #292929;
+  color: #bb86fc;
 }
 
+/* --- CHAT PANEL --- */
 .chat-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  background: #101010;
 }
 
+.chat-panel h2 {
+  color: #bb86fc;
+  margin-bottom: 1rem;
+}
+
+/* Messages layout */
 .messages-box {
   flex: 1;
   overflow-y: auto;
   margin-bottom: 1rem;
-  padding-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.5rem;
 }
 
+/* Message bubbles */
 .msg {
-  margin: 0.3rem 0;
-  padding: 0.5rem;
-  border-radius: 8px;
-  max-width: 60%;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  max-width: 70%;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  animation: fadeIn 0.3s ease;
 }
 
 .msg.self {
-  background: #6200ea;
+  background: linear-gradient(145deg, #7b2ff7, #6200ea);
   align-self: flex-end;
   color: #fff;
 }
 
 .msg.other {
-  background: #333;
+  background: #1e1e1e;
   align-self: flex-start;
   color: #eee;
 }
 
+/* Input area */
 .input-box {
   display: flex;
+  gap: 0.5rem;
 }
 
 .input-box input {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.7rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  background: #1e1e1e;
+  color: #eee;
+  outline: none;
 }
 
 .input-box button {
-  margin-left: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.7rem 1.2rem;
   background: #6200ea;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   color: #fff;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-.no-chat {
-  flex: 1;
+.input-box button:hover {
+  background: #7b2ff7;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Keep everything you already have and ADD these changes at the bottom */
+
+/* Chat panel background when no user selected */
+.chat-panel.empty-chat {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.2rem;
-  color: #888;
+  color: #bbb;
+}
+
+.placeholder {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.placeholder h2 {
+  margin-bottom: 0.5rem;
+  color: #bb86fc;
 }
