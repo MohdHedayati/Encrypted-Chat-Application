@@ -36,7 +36,6 @@ public class WebSocketEventListener {
         logger.info("SessionConnectEvent: username={}, sessionId={}, Principal={}", username, sessionId, sha.getUser());
 
         // On connect, we just add the user to our registry.
-        // We will not broadcast here to avoid the race condition.
         if (username != null && sessionId != null) {
             activeUserRegistry.addUser(username, sessionId);
             logger.info("User connected and added to registry: {} (session: {})", username, sessionId);

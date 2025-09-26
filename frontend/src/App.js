@@ -84,8 +84,6 @@ function App() {
   return (
     <div className="App">
       {!isConnected ? (
-        // --- THIS IS THE FIX ---
-        // The .center-screen div acts as a full-page container
         <div className="center-screen">
           {/* The .name-box div is the content that gets centered */}
           <div className="name-box">

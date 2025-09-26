@@ -25,10 +25,6 @@ public class ActiveUserRegistry {
         return username;
     }
 
-    /**
-     * Returns a set of all active usernames.
-     * This method now directly returns the Set of users, resolving the type mismatch.
-     */
     public Set<String> getAllUsers() {
         return users.keySet();
     }

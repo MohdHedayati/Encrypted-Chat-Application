@@ -24,9 +24,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic", "/queue");
         registry.setApplicationDestinationPrefixes("/app");
-        // *** THE CRUCIAL FIX ***
-        // This line is essential for @SendToUser and convertAndSendToUser to work.
-        // It configures the prefix for user-specific destinations.
         registry.setUserDestinationPrefix("/user");
     }
 }
