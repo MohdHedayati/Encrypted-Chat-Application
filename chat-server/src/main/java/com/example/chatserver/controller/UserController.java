@@ -18,7 +18,6 @@ public class UserController {
     @GetMapping("/users/online")
     public List<String> getOnlineUsers() {
         return activeUserRegistry.getAllUsers()
-                .values()
                 .stream()
                 .toList();
     }

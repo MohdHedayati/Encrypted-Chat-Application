@@ -1,24 +1,36 @@
 package com.example.chatserver.service;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+@Service
 public class ActiveUserRegistry {
-    private final Map<String, String> userSessions = new ConcurrentHashMap<>();
+    // Stores username -> sessionId
+    private final ConcurrentHashMap<String, String> users = new ConcurrentHashMap<>();
+    // Stores sessionId -> username for quick lookup on disconnect
+    private final ConcurrentHashMap<String, String> sessionToUser = new ConcurrentHashMap<>();
 
-    public void addUser(String sessionId, String username) {
-        userSessions.put(sessionId, username);
+    public void addUser(String username, String sessionId) {
+        users.put(username, sessionId);
+        sessionToUser.put(sessionId, username);
     }
 
-    public void removeUser(String sessionId) {
-        userSessions.remove(sessionId);
+    public String removeUserBySessionId(String sessionId) {
+        String username = sessionToUser.remove(sessionId);
+        if (username != null) {
+            users.remove(username);
+        }
+        return username;
     }
 
-    public Map<String, String> getAllUsers() {
-        return Collections.unmodifiableMap(userSessions);
+    /**
+     * Returns a set of all active usernames.
+     * This method now directly returns the Set of users, resolving the type mismatch.
+     */
+    public Set<String> getAllUsers() {
+        return users.keySet();
     }
 }
+
