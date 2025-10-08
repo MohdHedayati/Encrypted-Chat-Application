@@ -36,9 +36,10 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))  // Enable CORS
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register", "/api/login", "/h2-console/**").permitAll()
-                        .requestMatchers("/ws-chat/**").permitAll()  // Allow WebSocket endpoint
-                        .requestMatchers("/users/online").authenticated()  // Require auth for online users
+                        .requestMatchers("/api/register", "/api/login").permitAll()
+                        .requestMatchers("/ws-chat/**").permitAll()
+                        .requestMatchers("/users/online").authenticated()
+                        .requestMatchers("/api/messages/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))

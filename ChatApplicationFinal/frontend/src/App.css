@@ -63,6 +63,22 @@ body {
 .name-box button:hover {
   background: #7b2ff7;
 }
+/*loading sign when loading previous messages*/
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #666;
+    font-style: italic;
+}
+
+.loading-indicator p {
+    margin: 0;
+}
+
+
+
 
 
 /* --- APP CONTAINER --- */

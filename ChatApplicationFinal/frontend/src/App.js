@@ -1,9 +1,11 @@
+import { fetchConversationHistory } from './api/messageApi';
 import React, { useState, useEffect, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import Login from "./Login";
 import Register from "./Register";
 import "./App.css";
+
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -14,8 +16,7 @@ function App() {
     const [to, setTo] = useState("");
     const [content, setContent] = useState("");
     const [view, setView] = useState("login"); // 'login' or 'register'
-
-    const stompClientRef = useRef(null);
+    const [isLoadingMessages, setIsLoadingMessages] = useState(false);    const stompClientRef = useRef(null);
 
     useEffect(() => {
         return () => {
@@ -86,7 +87,7 @@ function App() {
                 destination: "/app/private",
                 body: JSON.stringify(msg),
             });
-            setChatMessages((prev) => [...prev, msg]);
+            // setChatMessages((prev) => [...prev, msg]);  frontend mai double appending cause of this
             setContent("");
         }
     };
@@ -115,6 +116,48 @@ function App() {
         );
     }
 
+    /**
+     * Loads previous messages when user selects someone to chat with
+     * @param {string} selectedUser - Username of the person to chat with
+     */
+    const loadConversationHistory = async (selectedUser) => {
+        if (!selectedUser) return;
+
+        setIsLoadingMessages(true);
+
+        try {
+            console.log(`Loading conversation history with ${selectedUser}...`);
+
+            // Fetch messages from backend
+            const messages = await fetchConversationHistory(selectedUser);
+
+            console.log(`Loaded ${messages.length} previous messages`);
+
+            // Add these messages to chatMessages state
+            // We use a Set to avoid duplicates if messages are already loaded
+            setChatMessages(prevMessages => {
+                // Create a map of existing messages by ID to avoid duplicates
+                const existingIds = new Set(prevMessages.map(msg => msg.id));
+
+                // Filter out messages that are already in state
+                const newMessages = messages.filter(msg => !existingIds.has(msg.id));
+
+                // Combine old and new messages, then sort by timestamp
+                const combined = [...prevMessages, ...newMessages];
+
+                // Sort by timestamp to maintain chronological order
+                return combined.sort((a, b) =>
+                    new Date(a.timestamp) - new Date(b.timestamp)
+                );
+            });
+
+        } catch (error) {
+            console.error('Failed to load conversation history:', error);
+            // You might want to show an error message to user here
+        } finally {
+            setIsLoadingMessages(false);
+        }
+    };
     // Show chat interface if authenticated
     return (
         <div className="App">
@@ -125,7 +168,11 @@ function App() {
                         {onlineUsers.map((user) => (
                             <li
                                 key={user}
-                                onClick={() => setTo(user)}
+                                onClick={() => {
+                                    setChatMessages([]);
+                                    setTo(user);
+                                    loadConversationHistory(user);
+                                }}
                                 className={to === user ? "active" : ""}
                             >
                                 {user}
@@ -143,27 +190,33 @@ function App() {
                         <>
                             <h2>Chatting with {to}</h2>
                             <div className="messages-box">
-                                <ul>
-                                    {chatMessages
-                                        .filter(
-                                            (msg) =>
-                                                (msg.from === username && msg.to === to) ||
-                                                (msg.from === to && msg.to === username)
-                                        )
-                                        .map((msg, idx) => (
-                                            <li
-                                                key={idx}
-                                                className={
-                                                    msg.from === username ? "msg self" : "msg other"
-                                                }
-                                            >
-                                                <b>
-                                                    {msg.from === username ? "You" : msg.from}:
-                                                </b>{" "}
-                                                {msg.content}
-                                            </li>
-                                        ))}
-                                </ul>
+                                {isLoadingMessages ? (
+                                    <div className="loading-indicator">
+                                        <p>Loading messages...</p>
+                                    </div>
+                                ) : (
+                                    <ul>
+                                        {chatMessages
+                                            .filter(
+                                                (msg) =>
+                                                    (msg.from === username && msg.to === to) ||
+                                                    (msg.from === to && msg.to === username)
+                                            )
+                                            .map((msg, idx) => (
+                                                <li
+                                                    key={msg.id || idx}  // Use msg.id if available
+                                                    className={
+                                                        msg.from === username ? "msg self" : "msg other"
+                                                    }
+                                                >
+                                                    <b>
+                                                        {msg.from === username ? "You" : msg.from}:
+                                                    </b>{" "}
+                                                    {msg.content}
+                                                </li>
+                                            ))}
+                                    </ul>
+                                )}
                             </div>
                             <div className="message-box input-box">
                                 <input

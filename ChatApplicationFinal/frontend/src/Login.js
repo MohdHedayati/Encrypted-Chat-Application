@@ -23,7 +23,7 @@ function Login({ onLoginSuccess , onSwitchToRegister}) {
 
             if (response.ok) {
                 setMessage(result);
-                onLoginSuccess(username);  // Notify parent component
+                onLoginSuccess(username);
             } else {
                 setMessage(result);
             }
