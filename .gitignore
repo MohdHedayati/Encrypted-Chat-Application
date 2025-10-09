@@ -1,0 +1,12 @@
+# Python
+# Ignore the virtual environment folder
+.venv/
+venv/
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# MkDocs
+# Ignore the build output folder
+site/

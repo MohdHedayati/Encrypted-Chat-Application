@@ -1,0 +1,28 @@
+site_name: Secure Chat App Docs
+theme:
+  name: material
+  palette:
+    # Palette toggle for automatic light/dark mode selection
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Project Overview: overview.md
+  - WebSockets: websockets.md
+  - Cryptography Algorithms:
+      - Overview: cryptography_algorithms/index.md
+      - RSA: cryptography_algorithms/rsa.md
+      - AES: cryptography_algorithms/aes.md
+  - Hybrid Encryption: hybrid_encryption.md
+  - Mini Projects: mini_projects.md
+  - Future Scope: future_scope.md
+  - Conclusion: conclusion.md
