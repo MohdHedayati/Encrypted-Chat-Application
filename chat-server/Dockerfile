@@ -1,15 +1,19 @@
-# Use a base image with Java 17
-FROM openjdk:17-slim
-
-# Set the working directory inside the container
+# --- Stage 1: Build the application ---
+# Use a Maven image to build the project
+FROM maven:3.8.5-openjdk-17 AS build
 WORKDIR /app
+# Copy the source code
+COPY . .
+# Run the Maven package command to build the JAR
+RUN mvn clean package -DskipTests
 
-# Copy the compiled JAR file into the container
-# The JAR file is in the 'target' directory created by Maven
-COPY target/*.jar app.jar
-
+# --- Stage 2: Create the final, lightweight image ---
+# Use a slim Java image for the final container
+FROM openjdk:17-slim
+WORKDIR /app
+# Copy only the built JAR from the 'build' stage
+COPY --from=build /app/target/*.jar app.jar
 # Expose the port the app will run on
 EXPOSE 8080
-
 # The command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
