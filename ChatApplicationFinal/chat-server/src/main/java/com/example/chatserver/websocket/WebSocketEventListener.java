@@ -35,13 +35,16 @@ public class WebSocketEventListener {
 
         logger.info("SessionConnectEvent: username={}, sessionId={}, Principal={}", username, sessionId, sha.getUser());
 
-        // On connect, we just add the user to our registry.
+        // Add user to registry when they connect
         if (username != null && sessionId != null) {
             activeUserRegistry.addUser(username, sessionId);
             logger.info("User connected and added to registry: {} (session: {})", username, sessionId);
+
+            //Broadcast immediately so other users see the new user
+            // The connecting user will get the list when they subscribe
+            broadcastUserList();
         }
     }
-
     @EventListener
     public void handleWebSocketSubscribeListener(SessionSubscribeEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());

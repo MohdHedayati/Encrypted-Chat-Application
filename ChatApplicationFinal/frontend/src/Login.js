@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './Auth.css';
+import { getPrivateKey } from './utils/indexedDBManager';
 
-function Login({ onLoginSuccess , onSwitchToRegister}) {
+function Login({ onLoginSuccess, onSwitchToRegister }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -10,12 +11,22 @@ function Login({ onLoginSuccess , onSwitchToRegister}) {
         e.preventDefault();
 
         try {
+            // Check if private key exists in IndexedDB
+            const privateKey = await getPrivateKey();
+
+            if (!privateKey) {
+                setMessage("No encryption keys found. Please register first or use the same browser where you registered.");
+                return;
+            }
+
+            console.log("Private key found in IndexedDB");
+
             const response = await fetch('https://localhost:8443/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                credentials: 'include',  // Include session cookie
+                credentials: 'include',
                 body: JSON.stringify({ username, password }),
             });
 
@@ -23,7 +34,7 @@ function Login({ onLoginSuccess , onSwitchToRegister}) {
 
             if (response.ok) {
                 setMessage(result);
-                onLoginSuccess(username);  // Notify parent component
+                onLoginSuccess(username);
             } else {
                 setMessage(result);
             }
@@ -60,8 +71,8 @@ function Login({ onLoginSuccess , onSwitchToRegister}) {
                     onClick={onSwitchToRegister}
                     style={{ color: "#00aaff", cursor: "pointer", fontWeight: "bold" }}
                 >
-      Register
-    </span>
+                    Register
+                </span>
             </p>
         </div>
     );

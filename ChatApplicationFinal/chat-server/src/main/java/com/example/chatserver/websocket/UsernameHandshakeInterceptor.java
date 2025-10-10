@@ -40,7 +40,7 @@ public class UsernameHandshakeInterceptor implements HandshakeInterceptor {
             ServerHttpResponse response,
             WebSocketHandler wsHandler,
             Exception ex) {
-        // No action needed
+
     }
 
     public static class UsernameHandshakeHandler extends DefaultHandshakeHandler {

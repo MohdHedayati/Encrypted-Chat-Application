@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.Principal;
+
 @Controller
 public class ChatController {
 
@@ -19,11 +21,21 @@ public class ChatController {
     }
 
     @MessageMapping("/private")
-    public void sendPrivate(@Payload ChatMessage message) {
-        logger.info("Received private message from {} to {}: {}", message.getFrom(), message.getTo(), message.getContent());
+    public void sendPrivate(@Payload ChatMessage message, Principal principal) {
+        if (principal == null) {
+            logger.error("Unauthenticated message attempt");
+            return;
+        }
+
+        String actualSender = principal.getName();
+        message.setFrom(actualSender);  // Force correct sender
+
+        logger.info("Routing encrypted message from {} to {}: {}", actualSender, message.getTo(), message.getTo());
+
         messagingTemplate.convertAndSendToUser(
-                message.getTo(), "/queue/messages", message
+                message.getTo(),
+                "/queue/messages",
+                message
         );
-        logger.info("Sent message to user destination: /user/{}/queue/messages", message.getTo());
     }
 }

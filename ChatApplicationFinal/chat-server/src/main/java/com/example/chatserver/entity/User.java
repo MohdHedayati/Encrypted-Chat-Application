@@ -27,4 +27,7 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(columnDefinition = "TEXT")
+    private String publicKey;  //Will store JWK JSON string
 }
