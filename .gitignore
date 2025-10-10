@@ -10,3 +10,5 @@ __pycache__/
 # MkDocs
 # Ignore the build output folder
 site/
+
+.idea/
