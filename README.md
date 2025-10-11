@@ -1,4 +1,8 @@
-# 🔐 Cryptify
+<p align="center">
+  <img src="logo.png" alt="Cryptify Logo" width="150"/>
+  <br>
+  <strong># Cryptify</strong>
+</p>
 
 > Chat securely, instantly.  
 > Real-time encrypted chat built with **Spring Boot**, **React**, and **WebSockets** using **RSA + AES hybrid encryption**.
