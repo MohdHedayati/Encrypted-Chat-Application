@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws-chat")
-                .setAllowedOriginPatterns("https://encrypted-chat-application.vercel.app")
+                .setAllowedOriginPatterns("*")
                 .addInterceptors(new UsernameHandshakeInterceptor())
                 .setHandshakeHandler(new UsernameHandshakeInterceptor.UsernameHandshakeHandler())
                 .withSockJS();
