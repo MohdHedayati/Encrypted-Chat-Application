@@ -30,18 +30,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use your existing CORS config
-            .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for stateless API
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                     .requestMatchers("/api/register", "/api/login").permitAll()
                     .requestMatchers("/ws-chat/**").permitAll()
                     .requestMatchers("/api/keys/**").authenticated()
                     .requestMatchers("/users/online").authenticated()
                     .anyRequest().authenticated()
             );
-            // The .formLogin() line is now completely removed.
 
     return http.build();
 }
