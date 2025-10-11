@@ -1,43 +1,38 @@
-# Project Overview
+## What is Cryptography
 
-## Introduction
+**Cryptography** is the practice and study of techniques for secure communication in the presence of adversarial behaviour. It involves transforming readable data (plain text) into an unreadable format (cipher text) and back again
 
-This document provides a technical overview of the Secure Chat Application, a real-time messaging platform designed with a primary focus on security and privacy. The application ensures that all communications are confidential and secure through a robust, multi-layered encryption strategy.
+Our Chat App focuses on user's Privacy and confidentiality of Data, for that we use Two Cryptography Algorithms. 
+- RSA (Rivest-Shamir-Adleman)
+- AES (Advance Encryption Standard)
 
-The project is built using a modern technology stack, with **React** for the frontend client and **Spring Boot** for the backend server. Real-time, bidirectional communication is achieved using **WebSockets**.
+## Need for Cryptography 
 
----
+In a chat application, cryptography is essential to guarantee:
 
-## Core Technologies
-
-* **Frontend:** React
-* **Backend:** Spring Boot
-* **Real-Time Communication:** WebSockets
-* **Security:**
-    * Hybrid Encryption (RSA + AES) for End-to-End Encryption
-    * TLS/SSL for Transport Layer Security
-
----
-
-## Key Features
-
-### 1. End-to-End Encryption (E2EE)
-
-The application's core security feature is its implementation of End-to-End Encryption. This ensures that a message is encrypted on the sender's device and can only be decrypted by the intended recipient's device. The server, or any potential eavesdropper, cannot read the message content.
+- **Confidentiality**
+	- Messages are kept secret. Only the intended recipient can read the content, even if a third party (like the server or an attacker) intercepts the data.
+- **Integrity**
+	- Ensures the message hasn't been altered during transmission.
+- **Authentication**
+	- Verifies that the sender is who they claim to be.
 
 
+## Implementation 
 
-### 2. Hybrid Encryption Model
+#### 1. [[RSA]]
+- Rivest-Shamir-Adleman (RSA) Algorithm is an **** asymmetric*** or **** public-key cryptography**** algorithm which means it works with two different keys: **** Public Key*** and **** Private Key***.
 
-To achieve robust and efficient E2EE, the application uses a hybrid encryption model that combines the strengths of both asymmetric (RSA) and symmetric (AES) cryptography.
+#### 2. [[AES]] 
+- Advanced Encryption Standard (AES) is an **symmetric** **cryptography***  algorithm used to secure data using a single key for both Encryption and Decryption.
 
-* **RSA (Asymmetric Encryption):** Used to securely exchange symmetric keys between users. Each user has a public/private key pair. The public key is used to encrypt a one-time session key, which can only be decrypted by the recipient's corresponding private key.
-* **AES (Symmetric Encryption):** Used for the actual encryption of messages. AES is much faster than RSA for encrypting large amounts of data. A new, unique AES session key is generated for each conversation, exchanged securely using RSA, and then used to encrypt all messages within that session.
 
-### 3. Transport Layer Security (TLS)
+## Web Crypto API 
+- There are several libraries and frameworks available in **Java** for implementing cryptography, such as the **Java Cryptography Architecture (JCA)**, which provides high-level APIs that abstract the low-level details of algorithms like **AES** and **RSA**.  
+- For **client-side encryption**, common options include **CryptoJS** (a JavaScript library) and the **Web Crypto API**.
+- For enhanced security, we chose to implement **client-side key generation**, as it enables true **End-to-End Encryption (E2EE)** — ensuring that private keys never leave the user’s device. The **Web Crypto API** supports this approach by providing native, secure methods for **AES** and **RSA** key generation, encryption, and decryption directly within the browser.
 
-In addition to E2EE for message content, all communication between the client and the server is wrapped in a **TLS (Transport Layer Security)** tunnel. This encrypts the entire data stream, protecting message metadata and preventing man-in-the-middle (MITM) attacks between the client and the server.
+### After understanding the Algorithms that we will be using, let's Jump to it's implementation using Web Crypto API.
 
-### 4. Real-Time Communication
+[[Hybrid Encryption]] 
 
-The use of **WebSockets** provides a persistent, full-duplex communication channel between the client and the server. This allows for the instantaneous delivery of messages and presence status updates (e.g., typing indicators) without the overhead of traditional HTTP polling, creating a seamless and responsive user experience.
