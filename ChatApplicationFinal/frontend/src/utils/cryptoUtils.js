@@ -112,7 +112,7 @@ export async function generateAESKey() {
         const aesKey = await window.crypto.subtle.generateKey(
             {
                 name: "AES-GCM",
-                length: 256  // 256 bit key
+                length: 256  // 256-bit key
             },
             true,  // Extractable (needed to encrypt with RSA)
             ["encrypt", "decrypt"]
