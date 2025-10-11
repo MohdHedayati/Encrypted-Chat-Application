@@ -50,7 +50,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // IMPORTANT: Replace this placeholder with your actual frontend URL from Vercel
-        configuration.setAllowedOrigins(Arrays.asList("https://your-frontend-app-name.vercel.app"));
+        configuration.setAllowedOrigins(Arrays.asList("https://encrypted-chat-application.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
