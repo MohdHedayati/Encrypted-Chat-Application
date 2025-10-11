@@ -50,7 +50,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // IMPORTANT: Replace this placeholder with your actual frontend URL from Vercel
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
