@@ -68,7 +68,7 @@ function App() {
     };
 
     const connectToWebSocket = (user) => {
-        const sockJsUrl = `https://localhost:8443/ws-chat`;
+        const sockJsUrl = `https://encrypted-chat-application-uh5z.onrender.com/ws-chat`;
 
         const client = new Client({
             webSocketFactory: () => new SockJS(sockJsUrl, null, {
@@ -241,7 +241,7 @@ function App() {
 
                 // Fetch receiver's public key
                 console.log(`[ENCRYPT] Fetching public key for ${to}...`);
-                const response = await fetch(`https://localhost:8443/api/keys/${to}`, {
+                const response = await fetch(`https://encrypted-chat-application-uh5z.onrender.com/api/keys/${to}`, {
                     credentials: 'include'
                 });
 

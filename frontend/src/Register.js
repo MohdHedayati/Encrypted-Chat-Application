@@ -28,7 +28,7 @@ function Register({ onRegisterSuccess, onSwitchToLogin }) {
             // Send registration data + public key to server FIRST
             // (Don't store private key until we know registration succeeded)
             setMessage('Registering user...');
-            const response = await fetch('https://localhost:8443/api/register', {
+            const response = await fetch('https://encrypted-chat-application-uh5z.onrender.com/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

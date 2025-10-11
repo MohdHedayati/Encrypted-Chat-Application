@@ -21,7 +21,7 @@ function Login({ onLoginSuccess, onSwitchToRegister }) {
 
             console.log("Private key found in IndexedDB");
 
-            const response = await fetch('https://localhost:8443/api/login', {
+            const response = await fetch('https://encrypted-chat-application-uh5z.onrender.com/api/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
