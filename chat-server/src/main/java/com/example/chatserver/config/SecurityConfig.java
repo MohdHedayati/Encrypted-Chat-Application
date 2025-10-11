@@ -31,20 +31,20 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register", "/api/login").permitAll()
-                        .requestMatchers("/ws-chat/**").permitAll()
-                        .requestMatchers("/api/keys/**").authenticated()
-                        .requestMatchers("/users/online").authenticated()
-                        .anyRequest().authenticated()
-                )
-                .formLogin(Customizer.withDefaults());
+    http
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Use your existing CORS config
+            .csrf(AbstractHttpConfigurer::disable) // Disable CSRF for stateless API
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/register", "/api/login").permitAll()
+                    .requestMatchers("/ws-chat/**").permitAll()
+                    .requestMatchers("/api/keys/**").authenticated()
+                    .requestMatchers("/users/online").authenticated()
+                    .anyRequest().authenticated()
+            );
+            // The .formLogin() line is now completely removed.
 
-        return http.build();
-    }
+    return http.build();
+}
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
