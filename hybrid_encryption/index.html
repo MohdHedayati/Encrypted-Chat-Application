@@ -71,6 +71,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#we-saw-key-generation-encryption-and-decryption-for-rsa-similarly-we-can-do-for-aes" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -412,6 +417,19 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Hybrid Encryption
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -423,6 +441,32 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#we-saw-key-generation-encryption-and-decryption-for-rsa-similarly-we-can-do-for-aes" class="md-nav__link">
+    <span class="md-ellipsis">
+      We saw Key Generation, Encryption and Decryption for RSA similarly we can do for AES.
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -512,6 +556,23 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#we-saw-key-generation-encryption-and-decryption-for-rsa-similarly-we-can-do-for-aes" class="md-nav__link">
+    <span class="md-ellipsis">
+      We saw Key Generation, Encryption and Decryption for RSA similarly we can do for AES.
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -528,7 +589,127 @@
 
   <h1>Hybrid Encryption</h1>
 
+<p>Now that we understand the fundamentals of <strong>Asymmetric (RSA)</strong> and <strong>Symmetric (AES)</strong> encryption algorithms, we can proceed with their implementation using the browser's built-in <strong>Web Crypto API</strong>.</p>
+<p>Let us first understand the need for Hybrid Encryption </p>
+<ul>
+<li>
+<p><strong>Key Distribution Challenge:</strong> Symmetric AES requires both users to have the <strong>same secret key</strong>. Since users can't meet to exchange it, <strong>RSA is necessary to securely transmit that secret key</strong> across the internet.</p>
+</li>
+<li>
+<p><strong>Performance Optimisation:</strong> The slow, computation-heavy <strong>RSA</strong> is used only once for the <em>initial key delivery</em>, ensuring the <strong>fast, efficient AES</strong> is reserved for the bulk of <em>high-speed message transfer</em>.</p>
+</li>
+<li>
+<p><strong>Speed for Data (AES Strength):</strong> AES is vastly <strong>faster</strong> than RSA. This speed is essential for quickly encrypting the large volume of data (every chat message) required for a responsive user experience.</p>
+</li>
+<li>
+<p><strong>Complete Confidentiality:</strong> Using the RSA-secured channel to deliver the AES key guarantees that the <strong>Session Key</strong> is known only to the two communicating parties, achieving true <strong>end-to-end confidentiality</strong>.
+<img alt="Hybrid Encryption" src="../images/img2.jpg" /></p>
+</li>
+<li>
+<p><strong>Symmetric Encryption:</strong> The sender first uses a fast <strong>common Key (AES)</strong> to encrypt the <strong>Plaintext Message</strong> into <strong>Ciphertext</strong>.</p>
+</li>
+<li>
+<p><strong>Asymmetric Key Transport:</strong> The sender then uses the <strong>recipient's Public Key (RSA)</strong> to securely encrypt and transport that small <strong>common Key</strong> alongside the ciphertext.</p>
+</li>
+<li>
+<p><strong>Two-Step Decryption:</strong> The recipient first uses their secret <strong>Private Key (RSA)</strong> to retrieve the <strong>Session Key</strong>, which is then used to decrypt the <strong>Ciphertext</strong> back into the original message.</p>
+</li>
+</ul>
+<p>Web Cypto API's has functions that do this job for us :
+1. Generate keys (Sender side)</p>
+<pre><code class="language-js">export async function generateRSAKeyPair() {  
+    try {  
+        const keyPair = await window.crypto.subtle.generateKey(  
+            {  
+                name: &quot;RSA-OAEP&quot;,  
+                modulusLength: 2048,  // Key size  
+                publicExponent: new Uint8Array([1, 0, 1]),  
+                hash: &quot;SHA-256&quot;  
+            },  
+            true,  // Public key is extractable  
+            [&quot;encrypt&quot;, &quot;decrypt&quot;]  // Key usages  
+        );  
 
+        return keyPair;  // publicKey,privateKey  
+    } catch (error) {  
+        console.error(&quot;Error generating RSA key pair:&quot;, error);  
+        throw error;  
+    }  
+}
+</code></pre>
+<ul>
+<li>
+<p>This function gives us the KeyPair(Private and Public key) by just specifying name of the mode (here RSA-OAEP) and we simply return it.</p>
+</li>
+<li>
+<p>Encrypt AES key using RSA public key(Sender side)</p>
+</li>
+</ul>
+<pre><code class="language-js">export async function wrapAESKeyWithRSA(aesKey, receiverPublicKey) {  
+    try {  
+        // Export AES key to raw format  
+        const aesKeyRaw = await window.crypto.subtle.exportKey(&quot;raw&quot;, aesKey);  
+
+        // Encrypt with RSA public key  
+        const wrappedKey = await window.crypto.subtle.encrypt(  
+            {  
+                name: &quot;RSA-OAEP&quot;  
+            },  
+            receiverPublicKey,  
+            aesKeyRaw  
+        );  
+
+        return arrayBufferToBase64(wrappedKey);  
+    } catch (error) {  
+        console.error(&quot;Error wrapping AES key:&quot;, error);  
+        throw error;  
+    }  
+}
+</code></pre>
+<ul>
+<li>
+<p>For encrypting the AES Key we firstly convert it to Raw format(binary) and then encrypt it with receiver's Public Key.</p>
+</li>
+<li>
+<p>Decrypt AES key using RSA private key(Receiver side)</p>
+<ul>
+<li>This occurs after the message has been routed by the server to the receiver.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-js">export async function unwrapAESKeyWithRSA(wrappedKeyBase64, privateKey) {  
+    try {  
+        const wrappedKey = base64ToArrayBuffer(wrappedKeyBase64);  
+        const aesKeyRawBuffer = await window.crypto.subtle.decrypt(  
+            {  
+                name: &quot;RSA-OAEP&quot;  
+            },  
+            privateKey,  
+            wrappedKey  
+        );  
+            // After decrypting,must import the raw buffer back into a CryptoKey              object  
+        const aesKey = await window.crypto.subtle.importKey(  
+            &quot;raw&quot;, // Format of the key to import  
+            aesKeyRawBuffer,  
+            {  
+                name: &quot;AES-GCM&quot;,  
+                length: 256  
+            },  
+            true, // Extractable  
+            [&quot;encrypt&quot;, &quot;decrypt&quot;]  
+        );  
+
+        return aesKey;  
+    } catch (error) {  
+        console.error(&quot;Error unwrapping AES key:&quot;, error);  
+        throw error;  
+    }  
+}
+</code></pre>
+<ul>
+<li>Encrypted AES key is base64 encoded as needed for transmission and after transforming  it into Raw format, we decrypt it using Receiver's Private Key and finally we convert it into CryptoKey format using the Import Key function.</li>
+</ul>
+<h4 id="we-saw-key-generation-encryption-and-decryption-for-rsa-similarly-we-can-do-for-aes">We saw Key Generation, Encryption and Decryption for RSA  similarly we can do for AES.</h4>
 
 
 

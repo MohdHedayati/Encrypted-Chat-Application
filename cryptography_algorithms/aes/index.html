@@ -71,6 +71,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#introduction" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -384,6 +389,19 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    AES
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -395,6 +413,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      INTRODUCTION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      ENCRYPTION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      DECRYPTION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iv-initialised-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      IV (Initialised Vector)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -514,6 +585,50 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      INTRODUCTION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      ENCRYPTION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      DECRYPTION
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iv-initialised-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      IV (Initialised Vector)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -530,7 +645,72 @@
 
   <h1>AES</h1>
 
-
+<h2 id="introduction">INTRODUCTION</h2>
+<ul>
+<li>AES is a <strong>symmetric cipher</strong>, meaning it uses a <strong>single, shared secret key</strong> for both encryption and decryption. This makes it extremely fast and efficient, which is crucial for encrypting large amounts of data, like the stream of messages in a chat application.</li>
+</ul>
+<h2 id="encryption">ENCRYPTION</h2>
+<p>The Advanced Encryption Standard (AES) is a <strong>symmetric block cipher</strong> that transforms data using repeated cycles, or rounds.</p>
+<ol>
+<li>
+<p><strong>Block and Key Structure:</strong> AES encrypts data in fixed <strong>128-bit blocks</strong> (represented as a 4×4 state matrix) using a secret <strong>Cipher Key</strong> that can be <strong>128, 192, or 256 bits</strong> long. The key length determines the number of rounds (Nr​) applied.
+    We will be using AES-256, with Mode GCM as it provides with Authentication tag, so if message is tampered we would know, and key size is 256 for improved security.</p>
+</li>
+<li>
+<p><strong>Rounds of Transformation:</strong> After an initial <strong>AddRoundKey</strong> operation, the core encryption process repeats Nr​ times (e.g., 10, 12, or 14 rounds). Each of the first Nr​−1 rounds consists of four byte-oriented transformations:</p>
+<ul>
+<li>
+<p><strong>SubBytes():</strong> Non-linear byte substitution using a lookup table (S-box).</p>
+</li>
+<li>
+<p><strong>ShiftRows():</strong> Cyclical shifting of the rows of the state matrix.</p>
+</li>
+<li>
+<p><strong>MixColumns():</strong> A matrix multiplication that mixes bytes within each column.</p>
+</li>
+<li>
+<p><strong>AddRoundKey():</strong> XORing the state matrix with a unique <strong>Round Key</strong> (derived from the main Cipher Key).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Final Round Difference:</strong> The very last round (the Nr​-th round) is slightly different, as the <strong>MixColumns()</strong> transformation is omitted to maintain the mathematical symmetry necessary for successful decryption.</p>
+</li>
+</ol>
+<h2 id="decryption">DECRYPTION</h2>
+<p>The AES decryption process is the <strong>exact inverse</strong> of the encryption process, using the same <strong>secret key</strong> but applying the transformations in reverse order.</p>
+<ol>
+<li>
+<p><strong>Inverse Rounds:</strong> Decryption also repeats the process Nr​ times (matching the key length). The difference is that the order of the transformations is reversed, and the <strong>inverse</strong> of each transformation is used (e.g., InvShiftRows(), InvSubBytes()).</p>
+</li>
+<li>
+<p><strong>Inverse Transformations:</strong> In most of the rounds, the transformations are applied in this order:</p>
+<ul>
+<li>
+<p><strong>InvShiftRows():</strong> Cyclical <em>right</em> shifting of the rows.</p>
+</li>
+<li>
+<p><strong>InvSubBytes():</strong> Non-linear byte substitution using the <em>inverse</em> substitution table (InvS-box).</p>
+</li>
+<li>
+<p><strong>InvMixColumns():</strong> The matrix multiplication is performed using the <em>inverse</em> matrix.</p>
+</li>
+<li>
+<p><strong>AddRoundKey():</strong> The state is <strong>XORed</strong> with the Round Key, which is an operation that serves as its own inverse.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Scheduling:</strong> The Round Keys (derived from the main Cipher Key) are used in the <strong>reverse order</strong> compared to encryption. The key for the last encryption round is the first one used in decryption, and so on.</p>
+</li>
+<li>
+<p><strong>Final Decryption Step:</strong> Just as the final encryption round omitted MixColumns(), the final decryption round omits InvMixColumns() to complete the successful reversal of the process, yielding the original <strong>128-bit plaintext</strong> block.</p>
+</li>
+</ol>
+<h2 id="iv-initialised-vector">IV (Initialised Vector)</h2>
+<ul>
+<li>An IV is a random or pseudo-random value that is used alongside the encryption key when encrypting data.The IV ensures that even if the same plaintext is encrypted multiple times with the same key, the ciphertexts will be different, thus preventing pattern leakage.A new, random IV is generated for each message encrypted with AES</li>
+</ul>
 
 
 
