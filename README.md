@@ -1,7 +1,7 @@
 <p align="center">
   <img src="logo.png" alt="Cryptify Logo" width="150"/>
   <br>
-  <strong># Cryptify</strong>
+  <b>Cryptify</b>
 </p>
 
 > Chat securely, instantly.  
