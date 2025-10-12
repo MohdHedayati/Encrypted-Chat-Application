@@ -71,6 +71,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#what-is-cryptography" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -338,6 +343,19 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -349,6 +367,98 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-cryptography" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Cryptography
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#need-for-cryptography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Need for Cryptography
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. [[RSA]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-aes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. [[AES]]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-crypto-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web Crypto API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web Crypto API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#after-understanding-the-algorithms-that-we-will-be-using-lets-jump-to-its-implementation-using-web-crypto-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      After understanding the Algorithms that we will be using, let's Jump to it's implementation using Web Crypto API.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -514,6 +624,89 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-cryptography" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Cryptography
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#need-for-cryptography" class="md-nav__link">
+    <span class="md-ellipsis">
+      Need for Cryptography
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-rsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. [[RSA]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-aes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. [[AES]]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-crypto-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web Crypto API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web Crypto API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#after-understanding-the-algorithms-that-we-will-be-using-lets-jump-to-its-implementation-using-web-crypto-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      After understanding the Algorithms that we will be using, let's Jump to it's implementation using Web Crypto API.
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -530,7 +723,44 @@
 
   <h1>Overview</h1>
 
-
+<h2 id="what-is-cryptography">What is Cryptography</h2>
+<p><strong>Cryptography</strong> is the practice and study of techniques for secure communication in the presence of adversarial behaviour. It involves transforming readable data (plain text) into an unreadable format (cipher text) and back again</p>
+<p>Our Chat App focuses on user's Privacy and confidentiality of Data, for that we use Two Cryptography Algorithms. 
+- RSA (Rivest-Shamir-Adleman)
+- AES (Advance Encryption Standard)</p>
+<h2 id="need-for-cryptography">Need for Cryptography</h2>
+<p>In a chat application, cryptography is essential to guarantee:</p>
+<ul>
+<li><strong>Confidentiality</strong><ul>
+<li>Messages are kept secret. Only the intended recipient can read the content, even if a third party (like the server or an attacker) intercepts the data.</li>
+</ul>
+</li>
+<li><strong>Integrity</strong><ul>
+<li>Ensures the message hasn't been altered during transmission.</li>
+</ul>
+</li>
+<li><strong>Authentication</strong><ul>
+<li>Verifies that the sender is who they claim to be.</li>
+</ul>
+</li>
+</ul>
+<h2 id="implementation">Implementation</h2>
+<h4 id="1-rsa">1. [[RSA]]</h4>
+<ul>
+<li>Rivest-Shamir-Adleman (RSA) Algorithm is an <strong><em>* asymmetric</em></strong> or <strong><em>* public-key cryptography</em></strong><em> algorithm which means it works with two different keys: </em><strong><em> Public Key</em></strong> and <strong><em>* Private Key</em></strong>.</li>
+</ul>
+<h4 id="2-aes">2. [[AES]]</h4>
+<ul>
+<li>Advanced Encryption Standard (AES) is an <strong>symmetric</strong> <strong>cryptography</strong>*  algorithm used to secure data using a single key for both Encryption and Decryption.</li>
+</ul>
+<h2 id="web-crypto-api">Web Crypto API</h2>
+<ul>
+<li>There are several libraries and frameworks available in <strong>Java</strong> for implementing cryptography, such as the <strong>Java Cryptography Architecture (JCA)</strong>, which provides high-level APIs that abstract the low-level details of algorithms like <strong>AES</strong> and <strong>RSA</strong>.  </li>
+<li>For <strong>client-side encryption</strong>, common options include <strong>CryptoJS</strong> (a JavaScript library) and the <strong>Web Crypto API</strong>.</li>
+<li>For enhanced security, we chose to implement <strong>client-side key generation</strong>, as it enables true <strong>End-to-End Encryption (E2EE)</strong> — ensuring that private keys never leave the user’s device. The <strong>Web Crypto API</strong> supports this approach by providing native, secure methods for <strong>AES</strong> and <strong>RSA</strong> key generation, encryption, and decryption directly within the browser.</li>
+</ul>
+<h3 id="after-understanding-the-algorithms-that-we-will-be-using-lets-jump-to-its-implementation-using-web-crypto-api">After understanding the Algorithms that we will be using, let's Jump to it's implementation using Web Crypto API.</h3>
+<p>[[Hybrid Encryption]] </p>
 
 
 
