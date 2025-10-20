@@ -49,7 +49,6 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // IMPORTANT: Replace this placeholder with your actual frontend URL from Vercel
         configuration.setAllowedOrigins(List.of(
         "https://encrypted-chat-application.vercel.app",
         "http://localhost:5173"));
